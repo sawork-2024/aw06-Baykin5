@@ -1,0 +1,165 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Products
+  license:
+    name: MIT
+paths:
+  /items:
+    get:
+      tags:
+        - item
+      operationId: listItems
+      summary: List cart items
+      description: Return an array of items.
+      responses:
+        200:
+          description: Items found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+    post:
+      tags:
+        - item
+      operationId: AddItem
+      summary: Add a cart item
+      description: Add a item.
+      requestBody:
+        description: The item
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      responses:
+        200:
+          description: Item created successfully.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /items/{itemId}:
+    get:
+      tags:
+        - item
+      operationId: getItem
+      summary: Get a item by ID
+      description: Returns the item or a 404 error.
+      parameters:
+        - name: itemId
+          in: path
+          description: The ID of the item.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+    put:
+      tags:
+        - item
+      operationId: updateItem
+      summary: Update a item by ID
+      description: Returns the item or a 404 error.
+      parameters:
+        - name: itemId
+          in: path
+          description: The ID of the item.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: The item
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      responses:
+        200:
+          description: Item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+    delete:
+      tags:
+        - item
+      operationId: deleteItem
+      summary: Delete a Item by ID
+      description: Returns the Item or a 404 error.
+      parameters:
+        - name: itemId
+          in: path
+          description: The ID of the item.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: Item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+
+components:
+  schemas:
+
+    Item:
+      title: Item
+      description: A Cart Item.
+      type: object
+      properties:
+        id:
+          title: ID
+          description: the ID of the Item.
+          type: integer
+          format: int32
+        pid:
+          title: ProductId
+          description: the product id of the Item.
+          type: integer
+        quantity:
+          title: Quantity
+          description: the quantity of the Item.
+          type: integer
+      required:
+        - id
+        - pid
+        - quantity

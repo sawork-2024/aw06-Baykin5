@@ -1,0 +1,180 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Products
+  license:
+    name: MIT
+paths:
+  /products:
+    get:
+      tags:
+        - product
+      operationId: listProducts
+      summary: Lists products
+      description: Returns an array of products.
+      responses:
+        200:
+          description: Products found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      tags:
+        - product
+      operationId: addProduct
+      summary: Create a Product
+      description: Creates a product .
+      requestBody:
+        description: The product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        200:
+          description: Product created successfully.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+  /products/{productId}:
+    get:
+      tags:
+        - product
+      operationId: getProduct
+      summary: Get a product by ID
+      description: Returns the product or a 404 error.
+      parameters:
+        - name: productId
+          in: path
+          description: The ID of the product.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: product details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+    put:
+      tags:
+        - product
+      operationId: updateProduct
+      summary: Update a product by ID
+      description: Returns the product or a 404 error.
+      parameters:
+        - name: productId
+          in: path
+          description: The ID of the product.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: The product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        200:
+          description: Product details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+    delete:
+      tags:
+        - product
+      operationId: deleteProduct
+      summary: Delete a Product by ID
+      description: Returns the Product or a 404 error.
+      parameters:
+        - name: productId
+          in: path
+          description: The ID of the product.
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            example: 1
+      responses:
+        200:
+          description: Product details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+
+components:
+  schemas:
+    Product:
+      title: Product
+      description: A product.
+      type: object
+      properties:
+        id:
+          title: ID
+          description: The ID of the product.
+          type: integer
+          format: int32
+        name:
+          title: Name
+          description: The name of the product.
+          type: string
+        price:
+          title: Price
+          description: The price of the product.
+          type: double
+        image:
+          title: Image
+          description: The image of the product.
+          type: string
+        quantity:
+          title: Quantity
+          description: The quantity of the product.
+          type: integer
+      required:
+        - id
+        - name
+        - price
+        - image
+        - quantity
