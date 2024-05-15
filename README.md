@@ -21,11 +21,11 @@ ProductService中使用了断路器机制，当数据库中products表为空时�
 
 OrderService中使用了restTemplate机制，其存储订单使用的Item数据结构只保存了pid（商品id），在访问`/checkout`资源时，会调用restTemplate访问product-service下的`/products/*`资源以获取商品价格并计算。
 
-![](C:\Files\研一下课程\软件体系结构\作业\aw06-Baykin5\pic\1.png)
+![](./pic/1.png)
 
 #### 
 
-![image-20240515110745186](C:\Files\研一下课程\软件体系结构\作业\aw06-Baykin5\pic\2.png)
+![image-20240515110745186](./pic/2.png)
 
 ### 压力测试
 
@@ -37,14 +37,14 @@ OrderService中使用了restTemplate机制，其存储订单使用的Item数据�
 
 #### 1个product-service实例
 
-![image-20240515113649422](C:\Files\研一下课程\软件体系结构\作业\aw06-Baykin5\pic\3.png)
+![image-20240515113649422](./pic/3.png)
 
 #### 2个product-service实例
 
-![image-20240515113654647](C:\Files\研一下课程\软件体系结构\作业\aw06-Baykin5\pic\4.png)
+![image-20240515113654647](./pic/4.png)
 
 #### 3个product-service实例
 
-![image-20240515113659363](C:\Files\研一下课程\软件体系结构\作业\aw06-Baykin5\pic\5.png)
+![image-20240515113659363](./pic/5.png)
 
 可以很明显看出整个服务的性能提升，可以得出微服务系统中，单个微服务的水平扩展可以提高整个系统的性能。
