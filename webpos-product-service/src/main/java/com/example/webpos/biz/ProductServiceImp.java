@@ -29,7 +29,8 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> products() {
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("CircuitBreaker");
-        return circuitBreaker.run(() -> this.productRepository.findAll(),throwable -> getDefaultProduct());
+        return this.productRepository.findAll();
+        // return circuitBreaker.run(() -> this.productRepository.findAll(),throwable -> getDefaultProduct());
 
     }
 

@@ -2,19 +2,28 @@ package com.example.webpos.biz;
 
 import com.example.webpos.repository.ItemRepository;
 import com.example.webpos.model.Item;
+import org.openapitools.model.ProductDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 
 import java.util.List;
 
 
 @Component
-public class ItemServiceImp implements ItemService {
+public class OrderServiceImp implements OrderService {
+
+
+    @Autowired
+    @LoadBalanced
+    protected RestTemplate restTemplate;
 
     private ItemRepository itemRepository;
-    // private CartRepository cartRepository;
 
-    public ItemServiceImp(ItemRepository itemRepository) {
+    public OrderServiceImp(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
     }
 
@@ -36,6 +45,22 @@ public class ItemServiceImp implements ItemService {
 
     @Override
     public void deleteItem(int id){ this.itemRepository.deleteById(id);}
+
+    @Override
+    public double getTotal(){
+        List<Item> items = items();
+        // 从product-server那里获取每个product的价格数据
+        double sum = 0;
+        for (Item item:items){
+            String url = "http://PRODUCT-SERVICE/products/" + item.pid;
+            System.out.println(url);
+            ResponseEntity<ProductDto> response =
+                    restTemplate.getForEntity(url,ProductDto.class);
+            sum += item.quantity*response.getBody().getPrice();
+        }
+
+        return sum;
+    }
 
 //    public void addItem(int productId,int quantity){
 //

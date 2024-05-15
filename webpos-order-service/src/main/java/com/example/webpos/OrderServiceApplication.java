@@ -10,13 +10,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@EnableJpaAuditing
 @EntityScan("com.example.webpos.model")
 @ComponentScan("com.example.webpos")
-public class ItemServiceApplication {
+public class OrderServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ItemServiceApplication.class, args);
+        SpringApplication.run(OrderServiceApplication.class, args);
     }
 
     @Bean

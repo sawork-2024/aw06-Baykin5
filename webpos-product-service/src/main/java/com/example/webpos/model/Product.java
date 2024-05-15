@@ -27,6 +27,14 @@ public class Product {
     @Column(name = "quantity")
     public int quantity;
 
+    public Product(){
+        this.id = 0;
+        this.name = "null";
+        this.price = 0;
+        this.image = "null";
+        this.quantity = 0;
+    }
+
     public Product(int id, String name, int price, String imgae, int quantity) {
         this.id = id;
         this.name = name;

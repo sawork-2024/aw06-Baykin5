@@ -1,4 +1,8 @@
 spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: api-gateway
   cloud:
     gateway:
       routes:
@@ -6,8 +10,11 @@ spring:
           uri: lb://product-service
           predicates:
             - Path=/products/**
-
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/items/**
+        - id: order-service
+          uri: lb://order-service
+          predicates:         #  这里的predicate是多个
+            - Path=/checkout
